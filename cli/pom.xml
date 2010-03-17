@@ -1,0 +1,67 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>sun2010</artifactId>
+		<groupId>org.nicolas.sun2010</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<groupId>org.nicolas.sun2010</groupId>
+	<artifactId>cli</artifactId>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>hibernate3-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<component>
+						<name>hbm2ddl</name>
+						<implementation>annotationconfiguration</implementation>
+					</component>
+					<componentProperties>
+						<!-- Create Drop Statements -->
+						<drop>true</drop>
+					</componentProperties>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<artifactId>mysql-connector-java</artifactId>
+						<groupId>mysql</groupId>
+						<version>5.1.12</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<artifactId>persistence</artifactId>
+			<groupId>org.nicolas.sun2010</groupId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<artifactId>model</artifactId>
+			<groupId>org.nicolas.sun2010</groupId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<artifactId>service-client</artifactId>
+			<groupId>org.nicolas.sun2010</groupId>
+			<version>${project.parent.version}</version>
+		</dependency>
+
+
+	</dependencies>
+
+</project>

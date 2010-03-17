@@ -1,0 +1,27 @@
+<org.nicolas.sun2010.web.mapper.TableToDaoMap>
+  <tablePrefix>//x:table[@id=&apos;TblMaquinas&apos;]</tablePrefix>
+  <namespace>x</namespace>
+  <bodyPrefix>x:tbody/x:tr[@style=&apos;background-color: White;&apos;]</bodyPrefix>
+  <staticFactoryMethod>
+    <class>org.nicolas.sun2010.model.ModelFactory</class>
+    <name>createGame</name>
+    <parameter-types>
+      <class>java.lang.Long</class>
+    </parameter-types>
+  </staticFactoryMethod>
+  <insertMethodCallMapping>
+    <entry>
+      <string>x:td[3]</string>
+      <java-class>java.text.DecimalFormat</java-class>
+    </entry>
+    <entry>
+      <string>x:td[5]</string>
+      <java-class>java.text.DecimalFormat</java-class>
+    </entry>
+    <entry>
+      <string>x:td[6]</string>
+      <java-class>java.text.DecimalFormat</java-class>
+    </entry>
+    
+  </insertMethodCallMapping>
+</org.nicolas.sun2010.web.mapper.TableToDaoMap>

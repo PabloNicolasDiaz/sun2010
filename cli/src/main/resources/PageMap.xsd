@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.example.org/PageMap"
+	elementFormDefault="unqualified"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://www.example.org/PageMap">
+	<xsd:element name="pageMapping">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="pageClass">
+					<xsd:complexType>
+						<xsd:all>
+							<xsd:element name="class" type="xsd:string" />
+							<xsd:element name="URLSourcePostfix"
+								type="xsd:string" />
+						</xsd:all>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="instanciate" maxOccurs="unbounded">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="xpath" type="xsd:string" />
+							<xsd:element name="setterMethodCall"
+								maxOccurs="unbounded">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="subpath"
+											type="xsd:string" />
+										<xsd:element name="methodName"
+											type="xsd:string">
+											<xsd:complexType>
+												<xsd:all>
+													<xsd:attribute
+														name="parameterName" type="xsd:string" />
+													<xsd:attribute
+														name="castType" type="xsd:string" />
+												</xsd:all>
+											</xsd:complexType>
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+
+
+
+</xsd:schema>

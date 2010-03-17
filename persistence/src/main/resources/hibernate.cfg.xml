@@ -1,0 +1,43 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+	<!--
+	    <property name="dialect">org.hibernate.dialect.HSQLDialect</property>
+	-->
+	
+		<property name="dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
+		<!-- Database connection settings -->
+		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="connection.url">jdbc:mysql://localhost/sun2010</property>
+		<property name="connection.username">sun2010</property>
+		<property name="connection.password">nicolas</property>
+		<property name="connection.shutdown">true</property>
+
+		<!-- JDBC connection pool (use the built-in one) -->
+		<property name="connection.pool_size">1</property>
+
+		<!-- Enable Hibernate's automatic session context management -->
+		<property name="current_session_context_class">thread</property>
+
+		<!-- Disable the second-level cache  -->
+		<property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+
+		<!-- Echo all executed SQL to stdout -->
+		<property name="show_sql">true</property>
+
+		<!-- disable batching so HSQLDB will propagate errors correctly. -->
+		<property name="jdbc.batch_size">0</property>
+        
+        <mapping class="org.nicolas.sun2010.model.DailyState"/>
+        <mapping class="org.nicolas.sun2010.model.DailyStatePK"/>
+        
+        <mapping class="org.nicolas.sun2010.model.Game"/>
+        <mapping class="org.nicolas.sun2010.model.Machine"/>
+                
+        <mapping class="org.nicolas.sun2010.model.Manufacturer"/>        
+        
+	</session-factory>
+</hibernate-configuration>

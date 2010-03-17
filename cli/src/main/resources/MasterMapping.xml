@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageMapping xmlns:tns="http://www.example.org/PageMap"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/PageMap PageMap.xsd ">
+	<pageClass>
+		<class>org.nicolas.model.Game</class>
+		<URLSourcePostfix>reporte_maestro_maquinas.aspx.html</URLSourcePostfix>
+	</pageClass>
+	<instanciate>
+		<xpath>//table[@id='TblMaquinas']/tbody/tr[@style='background-color: White;']</xpath>
+		<setterMethodCall>
+			<subpath>td[0]</subpath>
+			<methodName>setUID</methodName>
+			<castType>Long</castType>
+		</setterMethodCall>
+		<setterMethodCall>
+			<subpath>td[4]</subpath>
+			<methodName>setManufacturer</methodName>
+			<castType>String</castType>
+		</setterMethodCall>
+		<setterMethodCall>
+			<subpath>td[5]</subpath>
+			<methodName>setMachine</methodName>
+			<castType>String</castType>
+		</setterMethodCall>
+	</instanciate>
+</pageMapping>
