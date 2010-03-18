@@ -75,7 +75,7 @@ public class Sol2000Retriver {
 		authPrefs.add(AuthPolicy.NTLM);
 		client.getParams().setParameter(AuthPolicy.AUTH_SCHEME_PRIORITY,
 				authPrefs);
-		fact = new HibernateDAOFactory();
+		fact = HibernateDAOFactory.getDaoFactory();
 
 	}
 

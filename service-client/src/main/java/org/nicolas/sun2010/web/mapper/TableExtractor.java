@@ -1,9 +1,8 @@
 package org.nicolas.sun2010.web.mapper;
 
 import java.util.List;
-import java.util.Observable;
 
-public abstract class TableExtractor<T, U, V, W> extends Observable {
+public abstract class TableExtractor<T, U, V, W> {
 
 	/*
 	 * (non-Javadoc)
@@ -11,22 +10,20 @@ public abstract class TableExtractor<T, U, V, W> extends Observable {
 	 * @see
 	 * org.nicolas.sun2010.web.mapper.TableExtractor#process(org.jdom.Document)
 	 */
-	public void process(U document) {
-
+	public void process(U document) throws BadDocumentException {
 		V table = matchTable(document);
-
 		List<W> tableBody = matchTableBody(table);
-
 		for (W element : tableBody) {
-			T object = makeRow(element);
-			this.notifyObservers(object);
+			T object;
+			object = makeRow(element);
+			handle(object);
 		}
-
 	}
 
-	protected abstract List<W> matchTableBody(V table);
+	protected abstract List<W> matchTableBody(V table)
+			throws BadDocumentException;
 
-	protected abstract V matchTable(U doc);
+	protected abstract V matchTable(U doc) throws BadDocumentException;
 
 	/** por defecto no hago actividad alguna. */
 
@@ -35,6 +32,6 @@ public abstract class TableExtractor<T, U, V, W> extends Observable {
 	};
 
 	/** no tengo idea de como hacer la fila desde el Element */
-	protected abstract T makeRow(W element);
+	protected abstract T makeRow(W element) throws BadRowException;
 
 }

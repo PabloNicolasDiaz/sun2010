@@ -23,6 +23,8 @@ public class HibernateDAOFactory implements DAOFactory {
 
 	private static final SessionFactory sessionFactory = getSessionFactory();
 
+	private static final HibernateDAOFactory single = getDaoFactory();
+
 	private static SessionFactory getSessionFactory() {
 		try {
 			return new AnnotationConfiguration().configure()
@@ -35,6 +37,10 @@ public class HibernateDAOFactory implements DAOFactory {
 
 	}
 
+	public static HibernateDAOFactory getDaoFactory() {
+		return single == null ? new HibernateDAOFactory() : single;
+	}
+
 	private static SessionFactory getSessionfactory() {
 		return sessionFactory;
 	}
@@ -43,9 +49,11 @@ public class HibernateDAOFactory implements DAOFactory {
 		sessionFactory.close();
 	}
 
-	public HibernateDAOFactory() {
+	HibernateDAOFactory() {
+
 		sess = getSessionfactory().getCurrentSession();
 		tr = sess.beginTransaction();
+
 	}
 
 	@Override

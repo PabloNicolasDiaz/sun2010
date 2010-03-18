@@ -2,7 +2,6 @@ package org.nicolas.sun2010.web.mapper;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
-import java.text.Format;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -11,16 +10,25 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.xpath.XPath;
+import org.nicolas.sun2010.web.mapper.formats.Formatter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TableDOMExtractor<T, ID extends Serializable> extends
 		TableExtractor<T, Document, Element, Element> {
 
-	public TableDOMExtractor(String tablePath, String Namespace,
-			Map<String, Class<? extends Format>> map, Method sfMethod) {
+	private static Logger log = LoggerFactory
+			.getLogger(TableDOMExtractor.class);
+
+	public TableDOMExtractor(String tablePath, String bp, String Namespace,
+			Map<String, Formatter<Element, ?>> map, Method sfMethod,
+			Integer rowl) {
 		this.namespace = Namespace;
-		// this.insertMethodCallMapping = map;
+		this.bodyPath = bp;
+		this.insertMethodCallMapping = map;
 		this.tablePrefix = tablePath;
-		// this.staticFactoryMethod = sfMethod;
+		this.staticFactoryMethod = sfMethod;
+		this.rowLenght = rowl;
 	}
 
 	/**
@@ -29,7 +37,7 @@ public class TableDOMExtractor<T, ID extends Serializable> extends
 	 * base de datos.
 	 */
 
-	// GenericDAO<T, U> dao;
+	/* GenericDAO<T, ID> dao; */
 
 	String tablePrefix;
 
@@ -39,19 +47,22 @@ public class TableDOMExtractor<T, ID extends Serializable> extends
 
 	Method staticFactoryMethod;
 
-	Map<String, Class<? extends Format>> insertMethodCallMapping;
+	Integer rowLenght;
+
+	Map<String, Formatter<Element, ?>> insertMethodCallMapping;
 
 	@Override
 	@SuppressWarnings("unchecked")
-	protected List<Element> matchTableBody(Element element) {
+	protected List<Element> matchTableBody(Element element)
+			throws BadTableException {
 		XPath path;
 		try {
 			path = constructPath(bodyPath, element);
+			log.debug("Xpath : " + path.toString());
 			return path.selectNodes(element);
-		} catch (JDOMException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			throw new BadTableException();
 		}
-		return new LinkedList<Element>();
 	}
 
 	private XPath constructPath(String s, Element element) throws JDOMException {
@@ -61,47 +72,47 @@ public class TableDOMExtractor<T, ID extends Serializable> extends
 	};
 
 	@Override
-	protected Element matchTable(Document doc) {
+	protected Element matchTable(Document doc) throws BadDocumentException {
 		XPath path;
 		try {
+			log.info("tblPrefix : " + tablePrefix);
 			path = constructPath(tablePrefix, doc.getRootElement());
+			log.info("Xpath : " + path.toString());
 			return (Element) path.selectSingleNode(doc);
 		} catch (JDOMException e) {
-			e.printStackTrace();
+			throw new BadTableException();
 		}
-		return new Element("");
 	};
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected T makeRow(Element element) {
+	protected T makeRow(Element element) throws BadRowException {
+		T newEntry = null;
+		if (element.getChildren().size() != rowLenght)
+			throw new BadRowException();
 		try {
 			List<Object> values = new LinkedList();
 
-			for (Map.Entry<String, Class<? extends Format>> thing : insertMethodCallMapping
+			for (Map.Entry<String, Formatter<Element, ?>> thing : insertMethodCallMapping
 					.entrySet()) {
-				XPath path;
+				XPath path = constructPath(thing.getKey(), element);
+				Formatter<Element, ?> rec = thing.getValue();
 
-				path = XPath.newInstance(thing.getKey());
-
-				path.addNamespace(namespace, element.getNamespaceURI());
-				Format rec = thing.getValue().newInstance();
-				Element t = (Element) path.selectSingleNode(element);
-				System.out.println(t);
-				String valor = t.getValue();
-				values.add(rec.parseObject(valor));
+				List<Element> t = path.selectNodes(element);
+				values.add(rec.parse(t));
 			}
-			System.out.println(values.toString());
-			T newEntry = (T) staticFactoryMethod.invoke(null, values.toArray());
-		} catch (JDOMException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			newEntry = (T) staticFactoryMethod.invoke(null, values.toArray());
+
+		} catch (Exception e) {
+			throw new BadRowException();
 		}
+
+		return newEntry;
 	}
 
 	@Override
 	protected void handle(T value) {
-		dao.create(newEntry);
+		System.out.println(value);
 	};
 
 }
