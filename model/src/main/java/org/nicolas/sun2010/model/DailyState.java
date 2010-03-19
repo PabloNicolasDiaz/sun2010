@@ -14,11 +14,11 @@ public class DailyState {
 	private Double bet;
 	private Double yield;
 
-	public DailyState() {
+	DailyState() {
 
 	}
 
-	public DailyState(Long g, Date d, Double bet, Double yield) {
+	DailyState(Long g, Date d, Double bet, Double yield) {
 		id = ModelFactory.createDailyStatePK(g, d);
 		this.bet = bet;
 		this.yield = yield;

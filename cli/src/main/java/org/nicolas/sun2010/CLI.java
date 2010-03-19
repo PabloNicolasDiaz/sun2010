@@ -8,15 +8,15 @@ import java.text.ParseException;
 
 import org.apache.log4j.PropertyConfigurator;
 import org.jdom.Document;
-import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
+import org.nicolas.sun2010.model.DailyState;
+import org.nicolas.sun2010.model.DailyStatePK;
 import org.nicolas.sun2010.model.Game;
 import org.nicolas.sun2010.web.FailedParseException;
 import org.nicolas.sun2010.web.Sol2000Retriver;
 import org.nicolas.sun2010.web.mapper.BadDocumentException;
 import org.nicolas.sun2010.web.mapper.TableDOMExtractor;
-import org.nicolas.sun2010.web.mapper.TableExtractor;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -42,14 +42,20 @@ public class CLI {
 			 */
 
 			XStream str = new XStream(new DomDriver());
-			TableExtractor<Game, Document, Element, Element> theMapper = (TableDOMExtractor<Game, Long>) str
+			TableDOMExtractor<Game, Long> theMapper = (TableDOMExtractor<Game, Long>) str
 					.fromXML(new FileInputStream(
 							"src/main/resources/masterMap.xml"));
+
+			TableDOMExtractor<DailyState, DailyStatePK> dailyMapper = (TableDOMExtractor<DailyState, DailyStatePK>) str
+					.fromXML(new FileInputStream(
+							"src/main/resources/dailyMap.xml"));
 
 			SAXBuilder builder = new SAXBuilder("org.ccil.cowan.tagsoup.Parser");
 
 			Document masterdoc = builder.build(new FileInputStream(master));
-			theMapper.process(masterdoc);
+			Document dailydoc = builder.build(new FileInputStream(report));
+			// theMapper.process(masterdoc);
+			dailyMapper.process(dailydoc);
 
 			// retriver.terminate();
 		} catch (FileNotFoundException e) {

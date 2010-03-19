@@ -52,4 +52,13 @@ public class ModelFactory {
 		return new Game(l);
 	}
 
+	public static DailyState createDailyState(Date d, Long g, Double bet,
+			Double yield) {
+		return new DailyState(g, d, bet, yield);
+	}
+
+	public static DailyState createDailyState() {
+		return new DailyState();
+	}
+
 }

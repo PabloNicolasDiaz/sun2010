@@ -2,6 +2,7 @@ package org.nicolas.sun2010.web.mapper;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
+import java.text.ParseException;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,11 +22,15 @@ public class TableDOMExtractor<T, ID extends Serializable> extends
 			.getLogger(TableDOMExtractor.class);
 
 	public TableDOMExtractor(String tablePath, String bp, String Namespace,
-			Collection<Formatter<Element, ?>> map, Method sfMethod, Integer rowl) {
+			Collection<Formatter<Element, ?>> rowMapping,
+			Collection<Formatter<Element, ?>> constantMapping, Method sfMethod,
+			Integer rowl) {
 		this.namespace = Namespace;
 		this.bodyPath = bp;
 		this.insertMethodCallMapping = new LinkedList<Formatter<Element, ?>>(
-				map);
+				rowMapping);
+		this.constantsMapping = new LinkedList<Formatter<Element, ?>>(
+				constantMapping);
 		this.tablePrefix = tablePath;
 		this.staticFactoryMethod = sfMethod;
 		this.rowLenght = rowl;
@@ -46,6 +51,9 @@ public class TableDOMExtractor<T, ID extends Serializable> extends
 	Method staticFactoryMethod;
 
 	Integer rowLenght;
+
+	/** por convencion se ponen primero las constantes */
+	List<Formatter<Element, ?>> constantsMapping;
 
 	List<Formatter<Element, ?>> insertMethodCallMapping;
 
@@ -82,30 +90,47 @@ public class TableDOMExtractor<T, ID extends Serializable> extends
 		}
 	};
 
-	@SuppressWarnings("unchecked")
 	@Override
-	protected T makeRow(Element element) throws BadRowException {
+	@SuppressWarnings("unchecked")
+	protected T makeRow(List<Object> constants, Element element)
+			throws BadRowException {
 		T newEntry = null;
 		if (element.getChildren().size() != rowLenght)
 			throw new BadRowException("Row size doesn't match");
 		try {
-			List<Object> values = new LinkedList();
-
-			for (Formatter<Element, ?> thing : insertMethodCallMapping) {
-				values.add(thing.parse(element));
-			}
+			List<Object> values = extractElements(this.insertMethodCallMapping,
+					constants, element);
 			newEntry = (T) staticFactoryMethod.invoke(null, values.toArray());
 
 		} catch (Exception e) {
-			throw new BadRowException(e.getMessage());
+			// e.printStackTrace();
+			throw new BadRowException(e.toString());
 		}
-
 		return newEntry;
+	}
+
+	private static List<Object> extractElements(
+			Collection<Formatter<Element, ?>> mapping, List<Object> constants,
+			Element element) throws ParseException {
+		List<Object> values = new LinkedList<Object>(constants);
+		for (Formatter<Element, ?> thing : mapping) {
+			values.add(thing.parse(element));
+		}
+		return values;
 	}
 
 	@Override
 	protected void handle(T value) {
 		System.out.println(value);
-	};
+	}
+
+	@Override
+	protected List<Object> matchTableConstants(Document table)
+			throws ParseException {
+		if (this.constantsMapping == null)
+			return new LinkedList<Object>();
+		return extractElements(this.constantsMapping, new LinkedList<Object>(),
+				table.getRootElement());
+	}
 
 }

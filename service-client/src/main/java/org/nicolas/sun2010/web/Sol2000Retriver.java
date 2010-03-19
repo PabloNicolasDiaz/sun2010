@@ -248,7 +248,8 @@ public class Sol2000Retriver {
 						.doubleValue();
 
 				if (ddao.findById(ModelFactory.createDailyStatePK(UID, date)) == null)
-					ddao.create(new DailyState(UID, date, Bet, Yield));
+					ddao.create(ModelFactory.createDailyState(date, UID, Bet,
+							Yield));
 			}
 		}
 

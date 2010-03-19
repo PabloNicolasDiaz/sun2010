@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<org.nicolas.sun2010.web.mapper.TableDOMExtractor>
+	<tablePrefix>//x:table[@id=&apos;TblReportes&apos;]</tablePrefix>
+	<bodyPath>x:tbody/x:tr[@style=&apos;background-color: White;&apos;] |
+		x:tbody/x:tr[@style=&apos;background-color: LightCoral;&apos;]
+	</bodyPath>
+	<rowLenght>9</rowLenght>
+	<namespace>x</namespace>
+	<staticFactoryMethod>
+		<class>org.nicolas.sun2010.model.ModelFactory</class>
+		<name>createDailyState</name>
+		<parameter-types>
+			<class>java.util.Date</class>
+			<class>java.lang.Long</class>
+			<class>java.lang.Double</class>
+			<class>java.lang.Double</class>
+		</parameter-types>
+	</staticFactoryMethod>
+	<constantsMapping>
+			<org.nicolas.sun2010.web.mapper.formats.ChainedFormatter>
+			<fmt1 class="org.nicolas.sun2010.web.mapper.formats.JDOMAttributeFormatter">
+				<attribute>value</attribute>
+				<path>//x:input[@id=&apos;TxtFechaDesde&apos;]</path>
+			</fmt1>
+			<fmt2 class="org.nicolas.sun2010.web.mapper.formats.JavaFormatWrapperFormatter">
+				<fmt>org.nicolas.sun2010.web.mapper.formats.MyDateFormat</fmt>
+			</fmt2>
+		</org.nicolas.sun2010.web.mapper.formats.ChainedFormatter>
+	</constantsMapping>	
+	<insertMethodCallMapping class="linked-list">
+		<org.nicolas.sun2010.web.mapper.formats.ChainedFormatter>
+			<fmt1 class="org.nicolas.sun2010.web.mapper.formats.JDOMSingleFormatter">
+				<path>x:td[1]</path>
+			</fmt1>
+			<fmt2 class="org.nicolas.sun2010.web.mapper.formats.JavaFormatWrapperFormatter">
+				<fmt>java.text.DecimalFormat</fmt>
+			</fmt2>
+		</org.nicolas.sun2010.web.mapper.formats.ChainedFormatter>
+		<org.nicolas.sun2010.web.mapper.formats.ChainedFormatter>
+			<fmt1 class="org.nicolas.sun2010.web.mapper.formats.JDOMSingleFormatter">
+				<path>x:td[8]</path>
+			</fmt1>
+			<fmt2 class="org.nicolas.sun2010.web.mapper.formats.JavaFormatWrapperFormatter">
+				<fmt>java.text.DecimalFormat</fmt>
+			</fmt2>
+		</org.nicolas.sun2010.web.mapper.formats.ChainedFormatter>
+		<org.nicolas.sun2010.web.mapper.formats.ChainedFormatter>
+			<fmt1 class="org.nicolas.sun2010.web.mapper.formats.JDOMSingleFormatter">
+				<path>x:td[9]</path>
+			</fmt1>
+			<fmt2 class="org.nicolas.sun2010.web.mapper.formats.JavaFormatWrapperFormatter">
+				<fmt>java.text.DecimalFormat</fmt>
+			</fmt2>
+		</org.nicolas.sun2010.web.mapper.formats.ChainedFormatter>
+	</insertMethodCallMapping>
+</org.nicolas.sun2010.web.mapper.TableDOMExtractor>
