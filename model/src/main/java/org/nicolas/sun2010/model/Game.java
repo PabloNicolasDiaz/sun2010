@@ -69,6 +69,12 @@ public class Game {
 	}
 
 	@Override
+	public String toString() {
+		return "UID : " + Uid.toString() + " - [ Machine : "
+				+ getMachine().toString() + "]";
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof Game))
 			return false;

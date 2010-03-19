@@ -2,9 +2,9 @@ package org.nicolas.sun2010.web.mapper;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import org.jdom.Document;
 import org.jdom.Element;
@@ -21,11 +21,11 @@ public class TableDOMExtractor<T, ID extends Serializable> extends
 			.getLogger(TableDOMExtractor.class);
 
 	public TableDOMExtractor(String tablePath, String bp, String Namespace,
-			Map<String, Formatter<Element, ?>> map, Method sfMethod,
-			Integer rowl) {
+			Collection<Formatter<Element, ?>> map, Method sfMethod, Integer rowl) {
 		this.namespace = Namespace;
 		this.bodyPath = bp;
-		this.insertMethodCallMapping = map;
+		this.insertMethodCallMapping = new LinkedList<Formatter<Element, ?>>(
+				map);
 		this.tablePrefix = tablePath;
 		this.staticFactoryMethod = sfMethod;
 		this.rowLenght = rowl;
@@ -37,8 +37,6 @@ public class TableDOMExtractor<T, ID extends Serializable> extends
 	 * base de datos.
 	 */
 
-	/* GenericDAO<T, ID> dao; */
-
 	String tablePrefix;
 
 	String bodyPath;
@@ -49,7 +47,7 @@ public class TableDOMExtractor<T, ID extends Serializable> extends
 
 	Integer rowLenght;
 
-	Map<String, Formatter<Element, ?>> insertMethodCallMapping;
+	List<Formatter<Element, ?>> insertMethodCallMapping;
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -80,7 +78,7 @@ public class TableDOMExtractor<T, ID extends Serializable> extends
 			log.info("Xpath : " + path.toString());
 			return (Element) path.selectSingleNode(doc);
 		} catch (JDOMException e) {
-			throw new BadTableException();
+			throw new BadTableException(e.getMessage());
 		}
 	};
 
@@ -89,22 +87,17 @@ public class TableDOMExtractor<T, ID extends Serializable> extends
 	protected T makeRow(Element element) throws BadRowException {
 		T newEntry = null;
 		if (element.getChildren().size() != rowLenght)
-			throw new BadRowException();
+			throw new BadRowException("Row size doesn't match");
 		try {
 			List<Object> values = new LinkedList();
 
-			for (Map.Entry<String, Formatter<Element, ?>> thing : insertMethodCallMapping
-					.entrySet()) {
-				XPath path = constructPath(thing.getKey(), element);
-				Formatter<Element, ?> rec = thing.getValue();
-
-				List<Element> t = path.selectNodes(element);
-				values.add(rec.parse(t));
+			for (Formatter<Element, ?> thing : insertMethodCallMapping) {
+				values.add(thing.parse(element));
 			}
 			newEntry = (T) staticFactoryMethod.invoke(null, values.toArray());
 
 		} catch (Exception e) {
-			throw new BadRowException();
+			throw new BadRowException(e.getMessage());
 		}
 
 		return newEntry;

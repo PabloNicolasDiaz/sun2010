@@ -15,8 +15,11 @@ public abstract class TableExtractor<T, U, V, W> {
 		List<W> tableBody = matchTableBody(table);
 		for (W element : tableBody) {
 			T object;
-			object = makeRow(element);
-			handle(object);
+			try {
+				object = makeRow(element);
+				handle(object);
+			} catch (BadRowException e) {
+			}
 		}
 	}
 

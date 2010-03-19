@@ -31,4 +31,9 @@ public class Manufacturer {
 		this.setId(nme);
 	}
 
+	@Override
+	public String toString() {
+		return "ID : " + getId().toString();
+	}
+
 }

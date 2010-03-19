@@ -46,4 +46,10 @@ public class Machine {
 		return Id;
 	}
 
+	@Override
+	public String toString() {
+		return "ID : " + getId().toString() + " - [ Manufacturer : "
+				+ getManufacturer().toString() + "]";
+	}
+
 }
