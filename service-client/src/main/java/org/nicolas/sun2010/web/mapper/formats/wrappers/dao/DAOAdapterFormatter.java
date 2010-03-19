@@ -1,10 +1,11 @@
-package org.nicolas.sun2010.web.mapper.formats;
+package org.nicolas.sun2010.web.mapper.formats.wrappers.dao;
 
 import java.io.Serializable;
 import java.text.ParseException;
 
 import org.nicolas.sun2010.persistence.HibernateDAOFactory;
 import org.nicolas.sun2010.persistence.ReadOnlyGenericDAO;
+import org.nicolas.sun2010.web.mapper.formats.Formatter;
 
 public class DAOAdapterFormatter<T, ID extends Serializable> implements
 		Formatter<ID, T> {

@@ -1,7 +1,9 @@
-package org.nicolas.sun2010.web.mapper.formats;
+package org.nicolas.sun2010.web.mapper.formats.wrappers.java;
 
 import java.text.Format;
 import java.text.ParseException;
+
+import org.nicolas.sun2010.web.mapper.formats.Formatter;
 
 public class JavaFormatWrapperFormatter<T, U> implements Formatter<T, U> {
 

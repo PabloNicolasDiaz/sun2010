@@ -20,10 +20,10 @@ import org.nicolas.sun2010.model.Machine;
 import org.nicolas.sun2010.model.ModelFactory;
 import org.nicolas.sun2010.web.mapper.TableDOMExtractor;
 import org.nicolas.sun2010.web.mapper.formats.ChainedFormatter;
-import org.nicolas.sun2010.web.mapper.formats.DAOAdapterFormatter;
 import org.nicolas.sun2010.web.mapper.formats.Formatter;
-import org.nicolas.sun2010.web.mapper.formats.JDOMSingleFormatter;
-import org.nicolas.sun2010.web.mapper.formats.JavaFormatWrapperFormatter;
+import org.nicolas.sun2010.web.mapper.formats.wrappers.dao.DAOAdapterFormatter;
+import org.nicolas.sun2010.web.mapper.formats.wrappers.java.JavaFormatWrapperFormatter;
+import org.nicolas.sun2010.web.mapper.formats.wrappers.jdom.JDOMSingleFormatter;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
