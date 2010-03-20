@@ -14,7 +14,6 @@ import org.nicolas.sun2010.model.DailyState;
 import org.nicolas.sun2010.model.DailyStatePK;
 import org.nicolas.sun2010.model.Game;
 import org.nicolas.sun2010.web.FailedParseException;
-import org.nicolas.sun2010.web.Sol2000Retriver;
 import org.nicolas.sun2010.web.mapper.BadDocumentException;
 import org.nicolas.sun2010.web.mapper.TableDOMExtractor;
 
@@ -28,7 +27,7 @@ public class CLI {
 		/*
 		 * Hacer un toco de cosas ...
 		 */
-		Sol2000Retriver retriver;
+		/* Sol2000Retriver retriver; */
 		PropertyConfigurator.configure("src/main/resources/log4j.properties");
 		try {
 			// retriver = new Sol2000Retriver();
@@ -42,6 +41,8 @@ public class CLI {
 			 */
 
 			XStream str = new XStream(new DomDriver());
+			str.autodetectAnnotations(true);
+
 			TableDOMExtractor<Game, Long> theMapper = (TableDOMExtractor<Game, Long>) str
 					.fromXML(new FileInputStream(
 							"src/main/resources/masterMap.xml"));
@@ -54,7 +55,8 @@ public class CLI {
 
 			Document masterdoc = builder.build(new FileInputStream(master));
 			Document dailydoc = builder.build(new FileInputStream(report));
-			// theMapper.process(masterdoc);
+
+			theMapper.process(masterdoc);
 			dailyMapper.process(dailydoc);
 
 			// retriver.terminate();

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.nicolas.sun2010.web.mapper.formats.wrappers.jdom;
+package org.nicolas.sun2010.web.mapper.formatter.wrappers.jdom;
 
 import java.text.ParseException;
 
@@ -9,10 +9,13 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.xpath.XPath;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
 /**
  * @author nicolas
  * 
  */
+@XStreamAlias(value = "JDOMAttributeFormatter")
 public class JDOMAttributeFormatter extends JDOMSingleFormatter {
 
 	String attribute;

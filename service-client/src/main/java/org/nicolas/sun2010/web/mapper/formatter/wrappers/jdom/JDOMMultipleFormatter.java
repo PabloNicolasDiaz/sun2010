@@ -1,4 +1,4 @@
-package org.nicolas.sun2010.web.mapper.formats.wrappers.jdom;
+package org.nicolas.sun2010.web.mapper.formatter.wrappers.jdom;
 
 import java.text.ParseException;
 import java.util.LinkedList;
@@ -6,8 +6,11 @@ import java.util.List;
 
 import org.jdom.Element;
 import org.jdom.JDOMException;
-import org.nicolas.sun2010.web.mapper.formats.BeanPathFormatter;
+import org.nicolas.sun2010.web.mapper.formatter.BeanPathFormatter;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+@XStreamAlias(value = "JDOMMultipleFormatter")
 public class JDOMMultipleFormatter extends
 		BeanPathFormatter<Element, List<String>> {
 

@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class TableExtractor<T, U, V, W> {
+public abstract class TableExtractor<T, U, V, W> implements Extractor {
 
 	/*
 	 * (non-Javadoc)

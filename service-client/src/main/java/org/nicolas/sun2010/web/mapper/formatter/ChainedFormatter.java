@@ -1,7 +1,10 @@
-package org.nicolas.sun2010.web.mapper.formats;
+package org.nicolas.sun2010.web.mapper.formatter;
 
 import java.text.ParseException;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+@XStreamAlias(value = "ChainedFormatter")
 public class ChainedFormatter<T, U, V> implements Formatter<T, V> {
 
 	Formatter<T, U> fmt1;

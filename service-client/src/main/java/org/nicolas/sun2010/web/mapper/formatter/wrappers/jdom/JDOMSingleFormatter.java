@@ -1,4 +1,4 @@
-package org.nicolas.sun2010.web.mapper.formats.wrappers.jdom;
+package org.nicolas.sun2010.web.mapper.formatter.wrappers.jdom;
 
 import java.text.ParseException;
 
@@ -6,8 +6,11 @@ import org.jdom.Content;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.xpath.XPath;
-import org.nicolas.sun2010.web.mapper.formats.BeanPathFormatter;
+import org.nicolas.sun2010.web.mapper.formatter.BeanPathFormatter;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+@XStreamAlias(value = "JDOMSingleFormatter")
 public class JDOMSingleFormatter extends BeanPathFormatter<Element, String> {
 
 	public JDOMSingleFormatter(String s) {

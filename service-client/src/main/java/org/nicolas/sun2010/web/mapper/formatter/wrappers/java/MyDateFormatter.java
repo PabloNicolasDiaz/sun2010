@@ -1,7 +1,10 @@
-package org.nicolas.sun2010.web.mapper.formats.wrappers.java;
+package org.nicolas.sun2010.web.mapper.formatter.wrappers.java;
 
 import java.text.SimpleDateFormat;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+@XStreamAlias(value = "MyDateFormatter")
 public class MyDateFormatter extends SimpleDateFormat {
 
 	/**

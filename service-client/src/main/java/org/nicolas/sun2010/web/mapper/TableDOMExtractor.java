@@ -11,10 +11,13 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.xpath.XPath;
-import org.nicolas.sun2010.web.mapper.formats.Formatter;
+import org.nicolas.sun2010.web.mapper.formatter.Formatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+@XStreamAlias(value = "TableDOMExtractor")
 public class TableDOMExtractor<T, ID extends Serializable> extends
 		TableExtractor<T, Document, Element, Element> {
 
@@ -32,7 +35,7 @@ public class TableDOMExtractor<T, ID extends Serializable> extends
 		this.constantsMapping = new LinkedList<Formatter<Element, ?>>(
 				constantMapping);
 		this.tablePrefix = tablePath;
-		this.staticFactoryMethod = sfMethod;
+		this.factoryMethod = sfMethod;
 		this.rowLenght = rowl;
 	}
 
@@ -48,11 +51,12 @@ public class TableDOMExtractor<T, ID extends Serializable> extends
 
 	String namespace;
 
-	Method staticFactoryMethod;
+	Method factoryMethod;
 
 	Integer rowLenght;
 
 	/** por convencion se ponen primero las constantes */
+
 	List<Formatter<Element, ?>> constantsMapping;
 
 	List<Formatter<Element, ?>> insertMethodCallMapping;
@@ -100,7 +104,7 @@ public class TableDOMExtractor<T, ID extends Serializable> extends
 		try {
 			List<Object> values = extractElements(this.insertMethodCallMapping,
 					constants, element);
-			newEntry = (T) staticFactoryMethod.invoke(null, values.toArray());
+			newEntry = (T) factoryMethod.invoke(null, values.toArray());
 
 		} catch (Exception e) {
 			// e.printStackTrace();

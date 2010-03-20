@@ -19,11 +19,11 @@ import org.nicolas.sun2010.model.Game;
 import org.nicolas.sun2010.model.Machine;
 import org.nicolas.sun2010.model.ModelFactory;
 import org.nicolas.sun2010.web.mapper.TableDOMExtractor;
-import org.nicolas.sun2010.web.mapper.formats.ChainedFormatter;
-import org.nicolas.sun2010.web.mapper.formats.Formatter;
-import org.nicolas.sun2010.web.mapper.formats.wrappers.dao.DAOAdapterFormatter;
-import org.nicolas.sun2010.web.mapper.formats.wrappers.java.JavaFormatWrapperFormatter;
-import org.nicolas.sun2010.web.mapper.formats.wrappers.jdom.JDOMSingleFormatter;
+import org.nicolas.sun2010.web.mapper.formatter.ChainedFormatter;
+import org.nicolas.sun2010.web.mapper.formatter.Formatter;
+import org.nicolas.sun2010.web.mapper.formatter.wrappers.dao.DAOAdapterFormatter;
+import org.nicolas.sun2010.web.mapper.formatter.wrappers.java.JavaFormatWrapperFormatter;
+import org.nicolas.sun2010.web.mapper.formatter.wrappers.jdom.JDOMSingleFormatter;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -56,6 +56,7 @@ public class AppTest extends TestCase {
 	public void testApp() throws JDOMException, NoSuchMethodException {
 
 		XStream xstream = new XStream(new DomDriver());
+		xstream.autodetectAnnotations(true);
 		try {
 
 			/*
@@ -86,8 +87,9 @@ public class AppTest extends TestCase {
 			TableDOMExtractor<Game, Long> gameMap = new TableDOMExtractor<Game, Long>(
 					"//x:table[@id='TblMaquinas']",
 					"x:tbody/x:tr[@style='background-color: White;']", "x",
-					recog, ModelFactory.class.getMethod("createGame",
-							new Class<?>[] { Long.class, Machine.class }), 13);
+					recog, new LinkedList<Formatter<Element, ?>>(),
+					ModelFactory.class.getMethod("createGame", new Class<?>[] {
+							Long.class, Machine.class }), 13);
 			File out = new File("masterMap.xml");
 
 			Writer f = new PrintWriter(out);

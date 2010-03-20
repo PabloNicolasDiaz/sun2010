@@ -1,4 +1,4 @@
-package org.nicolas.sun2010.web.mapper.formats;
+package org.nicolas.sun2010.web.mapper.formatter;
 
 import java.text.ParseException;
 

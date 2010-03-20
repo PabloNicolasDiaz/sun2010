@@ -2,31 +2,40 @@
   <tablePrefix>//x:table[@id=&apos;TblMaquinas&apos;]</tablePrefix>
   <bodyPath>x:tbody/x:tr[@style=&apos;background-color: White;&apos;]</bodyPath>
   <namespace>x</namespace>
- <staticFactoryMethod>
-		<class>org.nicolas.sun2010.model.ModelFactory</class>
-		<name>createGame</name>
-		<parameter-types>
-			<class>java.lang.Long</class>
-			<class>org.nicolas.sun2010.model.Machine</class>
-		</parameter-types>
-	</staticFactoryMethod>
+  <staticFactoryMethod>
+    <class>org.nicolas.sun2010.model.ModelFactory</class>
+    <name>createGame</name>
+    <parameter-types>
+      <class>java.lang.Long</class>
+      <class>org.nicolas.sun2010.model.Machine</class>
+    </parameter-types>
+  </staticFactoryMethod>
   <rowLenght>13</rowLenght>
-   <insertMethodCallMapping class="linked-list">
+  <constantsMapping class="linked-list"/>
+  <insertMethodCallMapping class="linked-list">
     <org.nicolas.sun2010.web.mapper.formats.ChainedFormatter>
-      <fmt1 class="org.nicolas.sun2010.web.mapper.formats.JDOMSingleFormatter">
+      <fmt1 class="org.nicolas.sun2010.web.mapper.formats.wrappers.jdom.JDOMSingleFormatter">
         <path>x:td[3]</path>
       </fmt1>
-      <fmt2 class="org.nicolas.sun2010.web.mapper.formats.JavaFormatWrapperFormatter">
+      <fmt2 class="org.nicolas.sun2010.web.mapper.formats.wrappers.java.JavaFormatWrapperFormatter">
         <fmt>java.text.DecimalFormat</fmt>
       </fmt2>
     </org.nicolas.sun2010.web.mapper.formats.ChainedFormatter>
     <org.nicolas.sun2010.web.mapper.formats.ChainedFormatter>
-      <fmt1 class="org.nicolas.sun2010.web.mapper.formats.JDOMSingleFormatter">
+      <fmt1 class="org.nicolas.sun2010.web.mapper.formats.wrappers.jdom.JDOMSingleFormatter">
         <path>x:td[6]</path>
       </fmt1>
-      <fmt2 class="org.nicolas.sun2010.web.mapper.formats.DAOAdapterFormatter">
+      <fmt2 class="org.nicolas.sun2010.web.mapper.formats.wrappers.dao.DAOAdapterFormatter">
         <classdao>org.nicolas.sun2010.model.Machine</classdao>
       </fmt2>
     </org.nicolas.sun2010.web.mapper.formats.ChainedFormatter>
+    <!-- org.nicolas.sun2010.web.mapper.formats.ChainedFormatter>
+      <fmt1 class="org.nicolas.sun2010.web.mapper.formats.wrappers.jdom.JDOMSingleFormatter">
+        <path>x:td[5]</path>
+      </fmt1>
+      <fmt2 class="org.nicolas.sun2010.web.mapper.formats.wrappers.dao.DAOAdapterFormatter">
+        <classdao>org.nicolas.sun2010.model.Manufacturer</classdao>
+      </fmt2>
+    </org.nicolas.sun2010.web.mapper.formats.ChainedFormatter-->
   </insertMethodCallMapping>
 </org.nicolas.sun2010.web.mapper.TableDOMExtractor>

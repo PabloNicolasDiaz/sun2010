@@ -1,10 +1,13 @@
-package org.nicolas.sun2010.web.mapper.formats;
+package org.nicolas.sun2010.web.mapper.formatter;
 
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+@XStreamAlias(value = "CompositeFormatter")
 public class CompositeFormatter<T, U> extends LinkedList<Formatter<T, U>>
 		implements Formatter<List<T>, List<U>> {
 
